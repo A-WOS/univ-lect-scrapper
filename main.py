@@ -6,8 +6,8 @@ from bs4 import BeautifulSoup
 
 os.system("cls")
 
-loginType = os.environ['PASSWORD']
-loginKind = os.environ['PASSWORD']
+loginType = os.environ['LOGIN_TYPE']
+loginKind = os.environ['LOGIN_KIND']
 user = os.environ['USERID']
 password = os.environ['PASSWORD']
 
