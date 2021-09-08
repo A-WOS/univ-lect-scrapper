@@ -1,3 +1,4 @@
+import csv
 import os
 import requests
 from numpy import random
@@ -29,7 +30,19 @@ session = requests.session()
 # 로그인을 해야 스크래핑이 가능함.
 session.post(url=login_url, data=login)
 
-for i in range(170, 190):
+lect_list = []
+
+
+def save_to_file(lect_list):
+    file = open("univ_all_lect.csv", mode="w", newline='')
+    writer = csv.writer(file)
+    writer.writerow(["index", "univ_lect_address", "subject_title"])
+    for lect in lect_list:
+        writer.writerow(list(lect.values())[0:3])
+    return
+
+
+for i in range(170, 180):
     # 과도한 요청으로 차단 방지
     sleep_time = random.uniform(2, 4)
     sleep(sleep_time)
@@ -41,9 +54,18 @@ for i in range(170, 190):
     soup = BeautifulSoup(url.content, "html.parser")
 
     try:
-        title = soup.find("div", {"class": "sub"}).get_text().strip()
+        title = soup.find("div", {"class": "sub"}).get_text().strip().replace(u'\xa0', u' ')
         print(i, univ_url, title)
+
+        lect_list.append({
+            "index": i,
+            "univ_lect_address": univ_url,
+            "subject_title": title
+        })
+
 
     except:
         print(f"{i} {univ_url} 정보 없음")
         continue
+
+save_to_file(lect_list)
