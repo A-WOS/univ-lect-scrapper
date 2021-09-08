@@ -13,4 +13,7 @@ venv/
 
 .idea/
 
-.csv
+/*.xml
+/inspectionProfiles/*.xml
+/*.iml
+
