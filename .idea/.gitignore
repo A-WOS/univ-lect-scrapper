@@ -12,3 +12,5 @@ env/
 venv/
 
 .idea/
+
+.csv
