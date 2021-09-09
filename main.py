@@ -12,6 +12,10 @@ loginKind = os.environ['LOGIN_KIND']
 user = os.environ['USERID']
 password = os.environ['PASSWORD']
 
+lec_address = os.environ['lec_address']
+course_param1 = os.environ['COURSE_PARAM1']
+course_param2 = os.environ['COURSE_PARAM2']
+
 # print(sess)
 login = {
     'loginType': loginType,
@@ -30,15 +34,15 @@ session = requests.session()
 # 로그인을 해야 스크래핑이 가능함.
 session.post(url=login_url, data=login)
 
-lect_list = []
+lec_list = []
 
 
-def save_to_file(lect_list):
-    file = open("univ_all_lect.csv", mode="w", newline='')
+def save_to_file(list_lec):
+    file = open("univ_all_lec.csv", mode="w", newline='')
     writer = csv.writer(file)
-    writer.writerow(["index", "univ_lect_address", "subject_title"])
-    for lect in lect_list:
-        writer.writerow(list(lect.values())[0:3])
+    writer.writerow(["index", "univ_lec_address", "subject_title"])
+    for lec in list_lec:
+        writer.writerow(list(lec.values())[0:3])
     return
 
 
@@ -48,7 +52,7 @@ for i in range(170, 180):
     sleep(sleep_time)
 
     # 스크래핑 할 URL 일단 지정범위만..
-    univ_url = f"https://hive.cju.ac.kr/usr/classroom/main.do?currentMenuId=&courseApplySeq=2483191&courseActiveSeq=44{i:03}"
+    univ_url = f"{lec_address}&{course_param1}=2483191&{course_param2}=44{i:03}"
 
     url = session.get(url=univ_url, headers=headers)
     soup = BeautifulSoup(url.content, "html.parser")
@@ -57,15 +61,14 @@ for i in range(170, 180):
         title = soup.find("div", {"class": "sub"}).get_text().strip().replace(u'\xa0', u' ')
         print(i, univ_url, title)
 
-        lect_list.append({
+        lec_list.append({
             "index": i,
-            "univ_lect_address": univ_url,
+            "univ_lec_address": univ_url,
             "subject_title": title
         })
-
 
     except:
         print(f"{i} {univ_url} 정보 없음")
         continue
 
-save_to_file(lect_list)
+save_to_file(lec_list)
