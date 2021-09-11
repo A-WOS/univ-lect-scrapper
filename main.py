@@ -47,7 +47,7 @@ def save_to_file(list_lec):
 
 
 # 소스코드가 길어져서 함수로 만들어버림.
-def get_text2(c):
+def convert_readable_text(c):
     return c.get_text().strip().replace(u'\xa0', u' ')
 
 
@@ -63,8 +63,8 @@ for i in range(170, 176):
     soup = BeautifulSoup(url.content, "html.parser")
 
     try:
-        title = get_text2(soup.find("div", {"class": "sub"}))
-        pf_name = get_text2(soup.find("ul", {"class": "info"}).find_all("li")[2])
+        title = convert_readable_text(soup.find("div", {"class": "sub"}))
+        pf_name = convert_readable_text(soup.find("ul", {"class": "info"}).find_all("li")[2])
         print(i, univ_url, title, pf_name)
 
         lec_list.append({
