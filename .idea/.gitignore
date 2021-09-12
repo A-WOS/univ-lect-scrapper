@@ -12,6 +12,7 @@ env/
 venv/
 
 selenium/
+selenium/*.*
 .idea/
 
 /*.xml
