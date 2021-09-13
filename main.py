@@ -25,30 +25,53 @@ login = {
 }
 
 headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9"
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
+                  "Chrome/93.0.4577.63 Safari/537.36",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,"
+              "application/signed-exchange;v=b3;q=0.9 "
 }
 
 session = requests.session()
 # 로그인을 해서 스크래핑이 가능함.
 session.post(url=login_url, data=login)
 
-lec_list = []
+lects = []
 
 
 # csv파일로 저장 
-def save_to_file(list_lec):
+def save_to_file(lects):
     file = open("univ_all_lec.csv", mode="w", newline='')
     writer = csv.writer(file)
     writer.writerow(["index", "univ_lec_address", "subject_title", "profess_name"])
-    for lec in list_lec:
+    for lec in lects:
         writer.writerow(list(lec.values())[0:4])
+    file.close()
     return
 
 
 # 소스코드가 길어져서 함수로 만들어버림.
 def convert_readable_text(c):
     return c.get_text().strip().replace(u'\xa0', u' ')
+
+
+# 교수명으로 검색하여 다른 파일에 저장
+def search_profess(profess_name):
+    with open('searched_profess_subject.csv', mode='w', newline='') as writer:
+        with open('univ_all_lec.csv', mode='r') as reader:
+            print(type(reader))
+            for line in reader:
+                if profess_name in line:
+                    writer.write(line)
+                else:
+                    continue
+    reader.close()
+    writer.close()
+    return
+
+
+# 과목명으로 검생
+def search_subject():
+    return
 
 
 for i in range(170, 176):
@@ -65,9 +88,9 @@ for i in range(170, 176):
     try:
         title = convert_readable_text(soup.find("div", {"class": "sub"}))
         pf_name = convert_readable_text(soup.find("ul", {"class": "info"}).find_all("li")[2])
-        print(i, univ_url, title, pf_name)
-
-        lec_list.append({
+        # print(i, univ_url, title, pf_name)
+        print(title, pf_name)
+        lects.append({
             "index": i,
             "univ_lec_address": univ_url,
             "subject_title": title,
@@ -76,5 +99,7 @@ for i in range(170, 176):
 
     except:
         continue
+save_to_file(lects)
 
-save_to_file(lec_list)
+profs_name = input()
+search_profess(profs_name)
