@@ -54,13 +54,11 @@ def convert_readable_text(c):
     return c.get_text().strip().replace(u'\xa0', u' ')
 
 
-# 교수명으로 검색하여 다른 파일에 저장
-def search_profess(profess_name):
-    with open('searched_profess_subject.csv', mode='w', newline='') as writer:
+def reader_writer_csv(file_name, obj):
+    with open(file_name, mode='w', newline='') as writer:
         with open('univ_all_lec.csv', mode='r') as reader:
-            print(type(reader))
             for line in reader:
-                if profess_name in line:
+                if obj in line:
                     writer.write(line)
                 else:
                     continue
@@ -69,8 +67,17 @@ def search_profess(profess_name):
     return
 
 
+# 교수명으로 검색하여 다른 파일에 저장
+def search_profess(profess_name):
+    file_name = "searched_profess.csv"
+    reader_writer_csv(file_name, profess_name)
+    return
+
+
 # 과목명으로 검생
-def search_subject():
+def search_subject(subject):
+    file_name = "searched_subject.csv"
+    reader_writer_csv(file_name, subject)
     return
 
 
@@ -99,7 +106,14 @@ for i in range(170, 176):
 
     except:
         continue
-save_to_file(lects)
 
+save_to_file(lects)
+print("csv 파일로 저장 완료")
+
+print("교수명 입력 : ")
 profs_name = input()
 search_profess(profs_name)
+
+print("과목명 입력 : ")
+sbj_name = input()
+search_subject(sbj_name)
