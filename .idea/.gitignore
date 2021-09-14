@@ -11,8 +11,10 @@
 env/
 venv/
 
-../selenium/
-../selenium/*.*
+/selenium/google.py
+/selenium/chromedriver.exe
+/selenium/main2.py
+/selenium/*.*
 .idea/
 
 /*.xml
