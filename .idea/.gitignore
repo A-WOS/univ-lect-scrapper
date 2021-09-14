@@ -21,3 +21,5 @@ venv/
 /inspectionProfiles/*.xml
 /*.iml
 
+.csv
+
