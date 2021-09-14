@@ -11,8 +11,8 @@
 env/
 venv/
 
-selenium/
-selenium/*.*
+../selenium/
+../selenium/*.*
 .idea/
 
 /*.xml
