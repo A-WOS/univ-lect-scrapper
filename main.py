@@ -26,9 +26,7 @@ login = {
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
-                  "Chrome/93.0.4577.63 Safari/537.36",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,"
-              "application/signed-exchange;v=b3;q=0.9 "
+                  "Chrome/93.0.4577.63 Safari/537.36"
 }
 
 session = requests.session()
@@ -81,22 +79,23 @@ def search_subject(subject):
     return
 
 
-for i in range(170, 176):
+for i in range(4000, 5000):
     # 과도한 요청으로 차단 방지
-    sleep_time = random.uniform(2, 4)
+    sleep_time = random.uniform(3, 5)
     sleep(sleep_time)
 
-    # 스크래핑 할 URL 일단 지정범위만..
-    univ_url = f"{lec_address}&{course_param1}=2483191&{course_param2}=44{i:03}"
-
-    url = session.get(url=univ_url, headers=headers)
-    soup = BeautifulSoup(url.content, "html.parser")
-
     try:
+        # 스크래핑 할 URL 일단 지정범위만..
+
+        univ_url = f"{lec_address}&{course_param1}=2483191&{course_param2}=4{i:04}"
+
+        url = session.get(url=univ_url, headers=headers)
+        soup = BeautifulSoup(url.content, "html.parser")
+
         title = convert_readable_text(soup.find("div", {"class": "sub"}))
         pf_name = convert_readable_text(soup.find("ul", {"class": "info"}).find_all("li")[2])
-        # print(i, univ_url, title, pf_name)
-        print(title, pf_name)
+        print(i, univ_url, title, pf_name)
+        # print(i, title, pf_name)
         lects.append({
             "index": i,
             "univ_lec_address": univ_url,
