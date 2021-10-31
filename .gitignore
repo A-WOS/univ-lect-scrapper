@@ -109,6 +109,7 @@ fabric.properties
 .idea/codestream.xml
 
 .idea
+*.mp4
 
 # End of https://www.toptal.com/developers/gitignore/api/pycharm
 
