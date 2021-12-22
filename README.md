@@ -6,7 +6,6 @@
 - time
 - csv
 - os
-- streamlink
 ---------------
 ### 개발환경
 - IDEA : Pycharm Professional
