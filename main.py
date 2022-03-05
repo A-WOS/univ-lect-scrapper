@@ -26,7 +26,7 @@ login = {
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
-                  "Chrome/93.0.4577.63 Safari/537.36"
+                  "Chrome/99.0.4844.51 Safari/537.36"
 }
 
 session = requests.session()
@@ -79,7 +79,8 @@ def search_subject(subject):
     return
 
 
-for i in range(4000, 5000):
+# for i in range(4000, 5000):
+for i in range(500, 3000):
     # 과도한 요청으로 차단 방지
     sleep_time = random.uniform(3, 5)
     sleep(sleep_time)
@@ -87,11 +88,12 @@ for i in range(4000, 5000):
     try:
         # 스크래핑 할 URL 일단 지정범위만..
 
-        univ_url = f"{lec_address}&{course_param1}=2483191&{course_param2}=4{i:04}"
+        # univ_url = f"{lec_address}&{course_param1}=2483191&{course_param2}=4{i:04}"
+        univ_url = f"{lec_address}&{course_param1}=2850265&{course_param2}=5{i:04}"
 
         url = session.get(url=univ_url, headers=headers)
         soup = BeautifulSoup(url.content, "html.parser")
-
+        # print(univ_url)
         title = convert_readable_text(soup.find("div", {"class": "sub"}))
         pf_name = convert_readable_text(soup.find("ul", {"class": "info"}).find_all("li")[2])
         print(i, univ_url, title, pf_name)
